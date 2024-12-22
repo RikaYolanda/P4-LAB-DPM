@@ -6,7 +6,7 @@ import ScoreControls from "./src/components/ScoreControls";
 export default function App() {
   const [teamAScore, setTeamAScore] = useState(0);
   const [teamBScore, setTeamBScore] = useState(0);
-  const [winner, setWinner] = useState(null); // State to store the winner
+  const [winner, setWinner] = useState(null); // State untuk pemenang
 
   // Handler untuk menambah skor
   const handleIncrement = (team) => {
@@ -38,21 +38,9 @@ export default function App() {
 
   // Reset skor kedua tim
   const resetScores = () => {
-    Alert.alert(
-      "Reset Match",
-      "Are you sure you want to reset the match?",
-      [
-        { text: "Cancel" },
-        {
-          text: "OK",
-          onPress: () => {
-            setTeamAScore(0);
-            setTeamBScore(0);
-            setWinner(null); // Clear the winner when resetting
-          },
-        },
-      ]
-    );
+    setTeamAScore(0);
+    setTeamBScore(0);
+    setWinner(null); // Reset pemenang saat reset skor
   };
 
   return (
