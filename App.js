@@ -6,17 +6,24 @@ import ScoreControls from "./src/components/ScoreControls";
 export default function App() {
   const [teamAScore, setTeamAScore] = useState(0);
   const [teamBScore, setTeamBScore] = useState(0);
+  const [winner, setWinner] = useState(null); // State to store the winner
 
   // Handler untuk menambah skor
   const handleIncrement = (team) => {
     if (team === "A") {
       const newScore = teamAScore + 1;
       setTeamAScore(newScore);
-      if (newScore === 10) Alert.alert("Congratulations!", "Team A Wins!");
+      if (newScore === 10) {
+        setWinner("Team A");
+        Alert.alert("Congratulations!", "Team A Wins!");
+      }
     } else {
       const newScore = teamBScore + 1;
       setTeamBScore(newScore);
-      if (newScore === 10) Alert.alert("Congratulations!", "Team B Wins!");
+      if (newScore === 10) {
+        setWinner("Team B");
+        Alert.alert("Congratulations!", "Team B Wins!");
+      }
     }
   };
 
@@ -31,13 +38,27 @@ export default function App() {
 
   // Reset skor kedua tim
   const resetScores = () => {
-    setTeamAScore(0);
-    setTeamBScore(0);
+    Alert.alert(
+      "Reset Match",
+      "Are you sure you want to reset the match?",
+      [
+        { text: "Cancel" },
+        {
+          text: "OK",
+          onPress: () => {
+            setTeamAScore(0);
+            setTeamBScore(0);
+            setWinner(null); // Clear the winner when resetting
+          },
+        },
+      ]
+    );
   };
 
   return (
     <View style={styles.container}>
       <MatchInfo teamA="Team A" teamB="Team B" />
+      {winner && <Text style={styles.winnerText}>Winner: {winner}</Text>}
       <View style={styles.scoreContainer}>
         <ScoreControls
           team="A"
@@ -70,5 +91,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginVertical: 20,
     width: "100%",
+  },
+  winnerText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#28a745", // Green color for winner text
+    marginBottom: 20,
   },
 });
